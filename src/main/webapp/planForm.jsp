@@ -39,7 +39,7 @@
             <dd><input type="datetime-local" value="${plan.localDateTime}" name="localDateTime" required></dd>
         </dl>
         <dl>
-            <dt>Description:</dt>
+            <dt>Plan:</dt>
             <dd><input type="text" value="${plan.plan}" size=40 name="plan" required></dd>
         </dl>
 

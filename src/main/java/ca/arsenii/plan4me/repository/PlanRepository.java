@@ -2,14 +2,22 @@ package ca.arsenii.plan4me.repository;
 
 import ca.arsenii.plan4me.model.Plan;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 public interface PlanRepository {
-    Plan save(Plan plan);
+    // null if updated meal do not belong to userId
+    Plan save(Plan meal, int userId);
 
-    boolean delete(int id);
+    // false if meal do not belong to userId
+    boolean delete(int id, int userId);
 
-    Plan get(int id);
+    // null if meal do not belong to userId
+    Plan get(int id, int userId);
 
-    Collection<Plan> getAll();
+    // ORDERED localDateTime desc
+    List<Plan> getAll(int userId);
+
+    List<Plan> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId);
 }

@@ -4,30 +4,25 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class Plan {
+public class Plan extends AbstractBaseEntity{
 
-    private  Integer id;
-    private final LocalDateTime localDateTime;
-    private final String plan;
+
+    private  LocalDateTime localDateTime;
+    private  String plan;
 
     public Plan(Integer id, LocalDateTime localDateTime, String plan) {
-        this.id = id;
+        super(id);
         this.localDateTime = localDateTime;
         this.plan = plan;
+    }
+
+    public Plan() {
     }
 
     public Plan(LocalDateTime localDateTime, String plan) {
         this(null, localDateTime, plan);
     }
 
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
-        return id;
-    }
 
     public LocalDateTime getLocalDateTime() {
         return localDateTime;
@@ -45,8 +40,12 @@ public class Plan {
         return localDateTime.toLocalTime();
     }
 
-    public boolean isNew() {
-        return id == null;
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
+    }
+
+    public void setPlan(String plan) {
+        this.plan = plan;
     }
 
     @Override

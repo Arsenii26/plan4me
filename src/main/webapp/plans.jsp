@@ -11,7 +11,27 @@
     <h3><a href="index.jsp">Home</a> </h3>
     <hr/>
     <h2>Plans</h2>
-
+    <form method="get" action="meals">
+        <input type="hidden" name="action" value="filter">
+        <dl>
+            <dt>From Date:</dt>
+            <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
+        </dl>
+        <dl>
+            <dt>To Date:</dt>
+            <dd><input type="date" name="endDate" value="${param.endDate}"></dd>
+        </dl>
+        <dl>
+            <dt>From Time:</dt>
+            <dd><input type="time" name="startTime" value="${param.startTime}"></dd>
+        </dl>
+        <dl>
+            <dt>To Time:</dt>
+            <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
+        </dl>
+        <button type="submit">Filter</button>
+    </form>
+    <hr/>
     <a href="plans?action=create">Add plan</a>
     <br>
     <br>
@@ -20,17 +40,19 @@
         <tr>
             <th>Date</th>
             <th>Plan</th>
+            <th>CC</th>
             <th></th>
             <th></th>
         </tr>
         </thead>
         <c:forEach items="${plans}" var="plan11">
-            <jsp:useBean id="plan11" type="ca.arsenii.plan4me.model.PlanTo"/>
+            <jsp:useBean id="plan11" type="ca.arsenii.plan4me.to.PlanTo"/>
             <tr>
                 <td>
                         ${fn:formatDateTime(plan11.localDateTime)}
                 </td>
                 <td>${plan11.plan}</td>
+                <td>${plan11.count}</td>
                 <td><a href="plans?action=update&id=${plan11.id}">Update</a></td>
                 <td><a href="plans?action=delete&id=${plan11.id}">Delete</a></td>
             </tr>

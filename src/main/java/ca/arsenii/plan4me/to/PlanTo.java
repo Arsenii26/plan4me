@@ -1,4 +1,4 @@
-package ca.arsenii.plan4me.model;
+package ca.arsenii.plan4me.to;
 
 import java.time.LocalDateTime;
 
