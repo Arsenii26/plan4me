@@ -2,6 +2,7 @@ package ca.arsenii.plan4me.model;
 
 import java.time.LocalDateTime;
 
+
 public class PlanTo {
     private final Integer id;
     private final LocalDateTime localDateTime;
