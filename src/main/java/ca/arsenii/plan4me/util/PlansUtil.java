@@ -25,10 +25,31 @@ public class PlansUtil {
             new Plan(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин")
     );
 
-    public static List<Plan> getPlans(Collection<Plan> plans) {
-        return MEALS;
+//    public static List<Plan> getPlans(Collection<Plan> plans) {
+//        return MEALS;
+//    }
+
+    private static List<PlanTo> getFilteredWithExcess(Collection<Plan> meals,  Predicate<Plan> filter) {
+//        Map<LocalDate, Integer> caloriesSumByDate = meals.stream()
+//                .collect(
+//                        Collectors.groupingBy(Plan::getDate, Collectors.summingInt(Plan::getId))
+////                      Collectors.toMap(Meal::getDate, Meal::getCalories, Integer::sum)
+//                );
+
+        return meals.stream()
+                .filter(filter)
+                .map(plan -> createWithExcess(plan))
+                .collect(toList());
     }
 
+    private static PlanTo createWithExcess(Plan meal) {
+        return new PlanTo(meal.getId(), meal.getLocalDateTime(), meal.getPlan());
+    }
+
+    public static List<PlanTo> getPlans(Collection<Plan> plans) {
+//        return MEALS;
+        return getFilteredWithExcess(plans, plan -> true);
+    }
 
 
 }

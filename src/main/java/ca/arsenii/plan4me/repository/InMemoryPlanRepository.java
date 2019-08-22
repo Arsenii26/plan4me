@@ -15,14 +15,14 @@ public class InMemoryPlanRepository implements PlanRepository{
     private AtomicInteger atomicInteger = new AtomicInteger(0);
 
     {
-//        PlansUtil.MEALS.forEach(this::save);
+        PlansUtil.MEALS.forEach(this::save);
 
-        save(new Plan(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак"));
-        save(new Plan(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтра2к"));
-        save(new Plan(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "З345автрак"));
-        save(new Plan(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "За3463втрак"));
-        save(new Plan(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "За6346втрак"));
-        save(new Plan(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "За37втрак"));
+//        save(new Plan(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак"));
+//        save(new Plan(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтра2к"));
+//        save(new Plan(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "З345автрак"));
+//        save(new Plan(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "За3463втрак"));
+//        save(new Plan(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "За6346втрак"));
+//        save(new Plan(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "За37втрак"));
 
     }
 
