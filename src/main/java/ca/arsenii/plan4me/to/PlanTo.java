@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 
 public class PlanTo {
     private final Integer id;
-    private final LocalDateTime localDateTime;
+    private final LocalDateTime dateTime;
     private final String plan;
 
-    public PlanTo(Integer id, LocalDateTime localDateTime, String plan) {
+    public PlanTo(Integer id, LocalDateTime dateTime, String plan) {
         this.id = id;
-        this.localDateTime = localDateTime;
+        this.dateTime = dateTime;
         this.plan = plan;
     }
 
@@ -17,8 +17,8 @@ public class PlanTo {
         return id;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
     public String getPlan() {
@@ -30,7 +30,7 @@ public class PlanTo {
     public String toString() {
         return "PlanTo{" +
                 "id=" + id +
-                ", localDateTime=" + localDateTime +
+                ", dateTime=" + dateTime +
                 ", plan=" + plan  +
                 '}';
     }

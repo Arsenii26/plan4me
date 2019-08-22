@@ -16,7 +16,7 @@ public interface PlanRepository {
     // null if meal do not belong to userId
     Plan get(int id, int userId);
 
-    // ORDERED localDateTime desc
+    // ORDERED dateTime desc
     List<Plan> getAll(int userId);
 
     List<Plan> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId);

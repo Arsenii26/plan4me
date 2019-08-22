@@ -73,7 +73,6 @@ public class PlanRestController {
         log.info("getBetween dates({} - {}) time({} - {}) for user {}", startDate, endDate, startTime, endTime, userId);
 
         List<Plan> mealsDateFiltered = service.getBetweenDates(startDate, endDate, userId);
-//        return PlansUtil.getFilteredWithExcess(mealsDateFiltered, SecurityUtil.authUserCaloriesPerDay(), startTime, endTime);
-        return null;
+        return PlansUtil.getFilteredWithExcess(mealsDateFiltered, startTime, endTime);
     }
 }

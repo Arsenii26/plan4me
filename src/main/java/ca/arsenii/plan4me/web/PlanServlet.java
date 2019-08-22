@@ -47,7 +47,7 @@ public class PlanServlet extends HttpServlet {
         String id = request.getParameter("id");
 
         Plan plan = new Plan(id.isEmpty() ? null : Integer.valueOf(id),
-                LocalDateTime.parse(request.getParameter("localDateTime")),
+                LocalDateTime.parse(request.getParameter("dateTime")),
                 request.getParameter("plan")
         );
 
@@ -92,16 +92,6 @@ public class PlanServlet extends HttpServlet {
                 request.getRequestDispatcher("/plans.jsp").forward(request, response);
                 break;
         }
-//            case "all":
-//            default:
-////                log.info("getAll");
-//                request.setAttribute("plans",
-//                        PlansUtil.getPlans(repository.getAll()));
-////                        repository.getAll());
-////                request.getRequestDispatcher("/plans.jsp").forward(request, response);
-//                request.getRequestDispatcher("/plans.jsp").forward(request, response);
-//                break;
-//        }
     }
 
     private int getId(HttpServletRequest request) {

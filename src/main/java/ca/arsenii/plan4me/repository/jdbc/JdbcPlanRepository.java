@@ -40,7 +40,7 @@ public class JdbcPlanRepository implements PlanRepository {
         MapSqlParameterSource map = new MapSqlParameterSource()
                 .addValue("id", meal.getId())
                 .addValue("plan", meal.getPlan())
-                .addValue("date_time", meal.getLocalDateTime())
+                .addValue("date_time", meal.getDateTime())
                 .addValue("user_id", userId);
 
         if (meal.isNew()) {

@@ -36,7 +36,7 @@
         <input type="hidden" name="id" value="${plan.id}">
         <dl>
             <dt>DateTime:</dt>
-            <dd><input type="datetime-local" value="${plan.localDateTime}" name="localDateTime" required></dd>
+            <dd><input type="datetime-local" value="${plan.dateTime}" name="dateTime" required></dd>
         </dl>
         <dl>
             <dt>Plan:</dt>

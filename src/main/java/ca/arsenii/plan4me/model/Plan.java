@@ -7,25 +7,25 @@ import java.time.LocalTime;
 public class Plan extends AbstractBaseEntity{
 
 
-    private  LocalDateTime localDateTime;
+    private  LocalDateTime dateTime;
     private  String plan;
 
-    public Plan(Integer id, LocalDateTime localDateTime, String plan) {
+    public Plan(Integer id, LocalDateTime dateTime, String plan) {
         super(id);
-        this.localDateTime = localDateTime;
+        this.dateTime = dateTime;
         this.plan = plan;
     }
 
     public Plan() {
     }
 
-    public Plan(LocalDateTime localDateTime, String plan) {
-        this(null, localDateTime, plan);
+    public Plan(LocalDateTime dateTime, String plan) {
+        this(null, dateTime, plan);
     }
 
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
     public String getPlan() {
@@ -33,15 +33,16 @@ public class Plan extends AbstractBaseEntity{
     }
 
     public LocalDate getDate() {
-        return localDateTime.toLocalDate();
+        return dateTime.toLocalDate();
     }
 
     public LocalTime getTime() {
-        return localDateTime.toLocalTime();
+        return dateTime.toLocalTime();
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+//    public void setLocalDateTime(LocalDateTime dateTime) {  //in this case date is empty
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
     public void setPlan(String plan) {
@@ -52,7 +53,7 @@ public class Plan extends AbstractBaseEntity{
     public String toString() {
         return "Meal{" +
                 "id=" + id +
-                ", localDateTime=" + localDateTime +
+                ", dateTime=" + dateTime +
                 ", plan='" + plan + '\'' +
                 '}';
     }

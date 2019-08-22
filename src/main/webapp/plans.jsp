@@ -11,7 +11,7 @@
     <h3><a href="index.jsp">Home</a> </h3>
     <hr/>
     <h2>Plans</h2>
-    <form method="get" action="meals">
+    <form method="get" action="plans">
         <input type="hidden" name="action" value="filter">
         <dl>
             <dt>From Date:</dt>
@@ -40,7 +40,6 @@
         <tr>
             <th>Date</th>
             <th>Plan</th>
-            <th>CC</th>
             <th></th>
             <th></th>
         </tr>
@@ -49,10 +48,10 @@
             <jsp:useBean id="plan11" type="ca.arsenii.plan4me.to.PlanTo"/>
             <tr>
                 <td>
-                        ${fn:formatDateTime(plan11.localDateTime)}
+                        ${fn:formatDateTime(plan11.dateTime)}
+<%--                        ${(plan11.dateTime)}--%>
                 </td>
                 <td>${plan11.plan}</td>
-                <td>${plan11.count}</td>
                 <td><a href="plans?action=update&id=${plan11.id}">Update</a></td>
                 <td><a href="plans?action=delete&id=${plan11.id}">Delete</a></td>
             </tr>
