@@ -20,11 +20,11 @@ import java.util.List;
 import static ca.arsenii.plan4me.UserTestData.*;
 
 @ContextConfiguration({
-        "classpath:spring/spring-app.xml",
+        "../../../../../../main/resources/spring/spring-app.xml",
         "classpath:spring/spring-db.xml"
 })
 @RunWith(SpringRunner.class)
-@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
+@Sql(scripts = "../../../../../../main/resources/db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class UserServiceTest {
 
     static {

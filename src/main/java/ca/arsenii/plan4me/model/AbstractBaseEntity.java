@@ -1,9 +1,20 @@
 package ca.arsenii.plan4me.model;
 
-public abstract class AbstractBaseEntity {
+
+import org.hibernate.Hibernate;
+import org.springframework.data.domain.Persistable;
+
+import javax.persistence.*;
+
+@MappedSuperclass
+@Access(AccessType.FIELD)
+public abstract class AbstractBaseEntity implements Persistable<Integer> {
 
     public static final int START_SEQ = 100;
 
+    @Id
+    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1, initialValue = START_SEQ)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
     protected Integer id;
 
     public AbstractBaseEntity() {
@@ -35,7 +46,7 @@ public abstract class AbstractBaseEntity {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (o == null || !getClass().equals(Hibernate.getClass(o))) {
             return false;
         }
         AbstractBaseEntity that = (AbstractBaseEntity) o;

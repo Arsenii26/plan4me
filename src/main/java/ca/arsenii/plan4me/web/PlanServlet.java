@@ -1,12 +1,10 @@
 package ca.arsenii.plan4me.web;
 
-import ca.arsenii.plan4me.model.Plan;
-import ca.arsenii.plan4me.util.PlansUtil;
-import ca.arsenii.plan4me.web.plan.PlanRestController;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ca.arsenii.plan4me.Profiles;
 import org.springframework.util.StringUtils;
-
+import ca.arsenii.plan4me.model.Plan;
+import ca.arsenii.plan4me.web.plan.PlanRestController;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -25,14 +23,18 @@ import static ca.arsenii.plan4me.util.DateTimeUtil.parseLocalTime;
 
 public class PlanServlet extends HttpServlet {
 
-    private ConfigurableApplicationContext springContext;
-    private PlanRestController mealController;
+//    private ConfigurableApplicationContext springContext;
+    private ClassPathXmlApplicationContext springContext;
+    private PlanRestController planController;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        springContext = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml");
-        mealController = springContext.getBean(PlanRestController.class);
+        springContext = new ClassPathXmlApplicationContext(new String[]{"spring/spring-app.xml", "spring/spring-db.xml"}, false);
+//       springContext.setConfigLocations("spring/spring-app.xml", "spring/spring-db.xml");
+        springContext.getEnvironment().setActiveProfiles(Profiles.getActiveDbProfile(), Profiles.REPOSITORY_IMPLEMENTATION);
+        springContext.refresh();
+        planController = springContext.getBean(PlanRestController.class);
     }
 
     @Override
@@ -44,17 +46,18 @@ public class PlanServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        String id = request.getParameter("id");
+//        String id = request.getParameter("id");
 
-        Plan plan = new Plan(id.isEmpty() ? null : Integer.valueOf(id),
+//        Plan plan = new Plan(id.isEmpty() ? null : Integer.valueOf(id),
+        Plan plan = new Plan(
                 LocalDateTime.parse(request.getParameter("dateTime")),
                 request.getParameter("plan")
         );
 
         if (StringUtils.isEmpty(request.getParameter("id"))) {
-            mealController.create(plan);
+            planController.create(plan);
         } else {
-            mealController.update(plan, getId(request));
+            planController.update(plan, getId(request));
         }
         response.sendRedirect("plans");
     }
@@ -66,15 +69,14 @@ public class PlanServlet extends HttpServlet {
         switch (action == null ? "all" : action) {
             case "delete":
                 int id = getId(request);
-//                log.info("Delete {}", id);
-                mealController.delete(id);
+                planController.delete(id);
                 response.sendRedirect("plans");
                 break;
             case "create":
             case "update":
                 final Plan plan = "create".equals(action) ?
                         new Plan(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "") :
-                        mealController.get(getId(request));
+                        planController.get(getId(request));
                 request.setAttribute("plan", plan);
                 request.getRequestDispatcher("/planForm.jsp").forward(request, response);
                 break;
@@ -83,12 +85,12 @@ public class PlanServlet extends HttpServlet {
                 LocalDate endDate = parseLocalDate(request.getParameter("endDate"));
                 LocalTime startTime = parseLocalTime(request.getParameter("startTime"));
                 LocalTime endTime = parseLocalTime(request.getParameter("endTime"));
-                request.setAttribute("plans", mealController.getBetween(startDate, startTime, endDate, endTime));
+                request.setAttribute("plans", planController.getBetween(startDate, startTime, endDate, endTime));
                 request.getRequestDispatcher("/plans.jsp").forward(request, response);
                 break;
             case "all":
             default:
-                request.setAttribute("plans", mealController.getAll());
+                request.setAttribute("plans", planController.getAll());
                 request.getRequestDispatcher("/plans.jsp").forward(request, response);
                 break;
         }

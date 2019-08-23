@@ -29,14 +29,14 @@ public class InMemoryPlanRepository implements PlanRepository {
     private Map<Integer, InMemoryBaseRepository> userPlansMap = new ConcurrentHashMap<>();
 
     {
-        PlansUtil.MEALS.forEach(plan -> save(plan, USER_ID));
+        PlansUtil.PLANS.forEach(plan -> save(plan, USER_ID));
 
         save(new Plan(LocalDateTime.of(2019, Month.AUGUST, 1, 14, 0), "asd"), ADMIN_ID);
     }
     @Override
-    public Plan save(Plan meal, int userId) {
-        InMemoryBaseRepository<Plan> meals = userPlansMap.computeIfAbsent(userId, uid -> new InMemoryBaseRepository<>());
-        return meals.save(meal);
+    public Plan save(Plan plan, int userId) {
+        InMemoryBaseRepository<Plan> plans = userPlansMap.computeIfAbsent(userId, uid -> new InMemoryBaseRepository<>());
+        return plans.save(plan);
     }
 
     @PostConstruct
@@ -51,30 +51,30 @@ public class InMemoryPlanRepository implements PlanRepository {
 
     @Override
     public boolean delete(int id, int userId) {
-        InMemoryBaseRepository<Plan> meals = userPlansMap.get(userId);
-        return meals != null && meals.delete(id);
+        InMemoryBaseRepository<Plan> plans = userPlansMap.get(userId);
+        return plans != null && plans.delete(id);
     }
 
     @Override
     public Plan get(int id, int userId) {
-        InMemoryBaseRepository<Plan> meals = userPlansMap.get(userId);
-        return meals == null ? null : meals.get(id);
+        InMemoryBaseRepository<Plan> plans = userPlansMap.get(userId);
+        return plans == null ? null : plans.get(id);
     }
 
     @Override
     public List<Plan> getAll(int userId) {
-        return getAllFiltered(userId, meal -> true);
+        return getAllFiltered(userId, plan -> true);
     }
 
     @Override
     public List<Plan> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
-        return getAllFiltered(userId, meal -> Util.isBetween(meal.getDateTime(), startDateTime, endDateTime));
+        return getAllFiltered(userId, plan -> Util.isBetween(plan.getDateTime(), startDateTime, endDateTime));
     }
 
     private List<Plan> getAllFiltered(int userId, Predicate<Plan> filter) {
-        InMemoryBaseRepository<Plan> meals = userPlansMap.get(userId);
-        return meals == null ? Collections.emptyList() :
-                meals.getCollection().stream()
+        InMemoryBaseRepository<Plan> plans = userPlansMap.get(userId);
+        return plans == null ? Collections.emptyList() :
+                plans.getCollection().stream()
                         .filter(filter)
                         .sorted(Comparator.comparing(Plan::getDateTime).reversed())
                         .collect(Collectors.toList());

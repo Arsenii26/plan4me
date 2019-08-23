@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -34,20 +35,21 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public User save(User user) {
-        MapSqlParameterSource map = new MapSqlParameterSource()
-                .addValue("id", user.getId())
-                .addValue("name", user.getName())
-                .addValue("email", user.getEmail())
-                .addValue("password", user.getPassword())
-                .addValue("registered", user.getRegistered())
-                .addValue("enabled", user.isEnabled());
+//        MapSqlParameterSource map = new MapSqlParameterSource()
+//                .addValue("id", user.getId())
+//                .addValue("name", user.getName())
+//                .addValue("email", user.getEmail())
+//                .addValue("password", user.getPassword())
+//                .addValue("registered", user.getRegistered())
+//                .addValue("enabled", user.isEnabled());
 
+        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(user);
         if (user.isNew()) {
-            Number newKey = insertUser.executeAndReturnKey(map);
+            Number newKey = insertUser.executeAndReturnKey(parameterSource);
             user.setId(newKey.intValue());
         } else if (namedParameterJdbcTemplate.update(
                 "UPDATE users SET name=:name, email=:email, password=:password, " +
-                        "registered=:registered, enabled=:enabled  WHERE id=:id", map) == 0) {
+                        "registered=:registered, enabled=:enabled, WHERE id=:id", parameterSource) == 0) {
             return null;
         }
         return user;

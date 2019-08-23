@@ -29,13 +29,13 @@ public class PlanRestController {
 
     public Plan get(int id) {
         int userId = SecurityUtil.authUserId();
-        log.info("get meal {} for user {}", id, userId);
+        log.info("get plan {} for user {}", id, userId);
         return service.get(id, userId);
     }
 
     public void delete(int id) {
         int userId = SecurityUtil.authUserId();
-        log.info("delete meal {} for user {}", id, userId);
+        log.info("delete plan {} for user {}", id, userId);
         service.delete(id, userId);
     }
 
@@ -48,18 +48,18 @@ public class PlanRestController {
         return PlansUtil.getPlans(service.getAll(userId));
     }
 
-    public Plan create(Plan meal) {
+    public Plan create(Plan plan) {
         int userId = SecurityUtil.authUserId();
-        checkNew(meal);
-        log.info("create {} for user {}", meal, userId);
-        return service.create(meal, userId);
+        checkNew(plan);
+        log.info("create {} for user {}", plan, userId);
+        return service.create(plan, userId);
     }
 
-    public void update(Plan meal, int id) {
+    public void update(Plan plan, int id) {
         int userId = SecurityUtil.authUserId();
-        assureIdConsistent(meal, id);
-        log.info("update {} for user {}", meal, userId);
-        service.update(meal, userId);
+        assureIdConsistent(plan, id);
+        log.info("update {} for user {}", plan, userId);
+        service.update(plan, userId);
     }
 
     /**
@@ -72,7 +72,7 @@ public class PlanRestController {
         int userId = SecurityUtil.authUserId();
         log.info("getBetween dates({} - {}) time({} - {}) for user {}", startDate, endDate, startTime, endTime, userId);
 
-        List<Plan> mealsDateFiltered = service.getBetweenDates(startDate, endDate, userId);
-        return PlansUtil.getFilteredWithExcess(mealsDateFiltered, startTime, endTime);
+        List<Plan> plansDateFiltered = service.getBetweenDates(startDate, endDate, userId);
+        return PlansUtil.getFilteredWithExcess(plansDateFiltered, startTime, endTime);
     }
 }

@@ -4,6 +4,9 @@ import ca.arsenii.plan4me.model.AbstractBaseEntity;
 import ca.arsenii.plan4me.util.exception.NotFoundException;
 
 public class ValidationUtil {
+    public ValidationUtil() {
+    }
+
     public static <T> T checkNotFoundWithId(T object, int id) {
         return checkNotFound(object, "id=" + id);
     }

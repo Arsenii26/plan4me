@@ -16,7 +16,7 @@ import java.util.Collection;
 
 import static ca.arsenii.plan4me.UserTestData.ADMIN;
 
-@ContextConfiguration({"classpath:spring/spring-app.xml", "classpath:test.xml"})
+@ContextConfiguration({"../../../../../../../main/resources/spring/spring-app.xml", "classpath:test.xml"})
 @RunWith(SpringRunner.class)
 public class InMemoryAdminRestControllerSpringTest {
 

@@ -2,12 +2,11 @@ package ca.arsenii.plan4me.repository.jdbc;
 
 import ca.arsenii.plan4me.model.Plan;
 import ca.arsenii.plan4me.repository.PlanRepository;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -17,17 +16,18 @@ import java.time.LocalDateTime;
 import java.util.List;
 @Repository
 public class JdbcPlanRepository implements PlanRepository {
-    private static final BeanPropertyRowMapper<Plan> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Plan.class);
+//    private static final BeanPropertyRowMapper<Plan> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Plan.class);
+    private static final RowMapper<Plan> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Plan.class);
 
     private final JdbcTemplate jdbcTemplate;
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private final SimpleJdbcInsert insertMeal;
+    private final SimpleJdbcInsert insertPlan;
 
     @Autowired
     public JdbcPlanRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-        this.insertMeal = new SimpleJdbcInsert(jdbcTemplate)
+        this.insertPlan = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("plans")
                 .usingGeneratedKeyColumns("id");
 
@@ -36,16 +36,16 @@ public class JdbcPlanRepository implements PlanRepository {
     }
 
     @Override
-    public Plan save(Plan meal, int userId) {
+    public Plan save(Plan plan, int userId) {
         MapSqlParameterSource map = new MapSqlParameterSource()
-                .addValue("id", meal.getId())
-                .addValue("plan", meal.getPlan())
-                .addValue("date_time", meal.getDateTime())
+                .addValue("id", plan.getId())
+                .addValue("plan", plan.getPlan())
+                .addValue("date_time", plan.getDateTime())
                 .addValue("user_id", userId);
 
-        if (meal.isNew()) {
-            Number newId = insertMeal.executeAndReturnKey(map);
-            meal.setId(newId.intValue());
+        if (plan.isNew()) {
+            Number newId = insertPlan.executeAndReturnKey(map);
+            plan.setId(newId.intValue());
         } else {
             if (namedParameterJdbcTemplate.update("" +
                             "UPDATE plans " +
@@ -55,7 +55,7 @@ public class JdbcPlanRepository implements PlanRepository {
                 return null;
             }
         }
-        return meal;
+        return plan;
     }
 
     @Override
@@ -65,9 +65,9 @@ public class JdbcPlanRepository implements PlanRepository {
 
     @Override
     public Plan get(int id, int userId) {
-        List<Plan> meals = jdbcTemplate.query(
+        List<Plan> plans = jdbcTemplate.query(
                 "SELECT * FROM plans WHERE id = ? AND user_id = ?", ROW_MAPPER, id, userId);
-        return DataAccessUtils.singleResult(meals);
+        return DataAccessUtils.singleResult(plans);
     }
 //    private SessionFactory sessionFactory;
     @Override

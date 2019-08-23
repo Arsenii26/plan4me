@@ -15,10 +15,10 @@ dd {
     vertical-align: top;
 }
 
-tr[data-mealExcess="false"] {
+tr[data-planExcess="false"] {
     color: green;
 }
 
-tr[data-mealExcess="true"] {
+tr[data-planExcess="true"] {
     color: blue;
 }

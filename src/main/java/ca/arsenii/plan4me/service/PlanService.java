@@ -3,8 +3,10 @@ package ca.arsenii.plan4me.service;
 import ca.arsenii.plan4me.model.Plan;
 import ca.arsenii.plan4me.repository.PlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,6 +38,8 @@ public class PlanService {
     }
 
     public List<Plan> getBetweenDateTimes(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
+        Assert.notNull(startDateTime, "startDateTime must not be null");
+        Assert.notNull(endDateTime, "endDateTime  must not be null");
         return repository.getBetween(startDateTime, endDateTime, userId);
     }
 
@@ -43,11 +47,15 @@ public class PlanService {
         return repository.getAll(userId);
     }
 
-    public void update(Plan meal, int userId) {
-        checkNotFoundWithId(repository.save(meal, userId), meal.getId());
+    public void update(Plan plan, int userId) {
+        checkNotFoundWithId(repository.save(plan, userId), plan.getId());
     }
 
-    public Plan create(Plan meal, int userId) {
-        return repository.save(meal, userId);
+    public Plan create(Plan plan, int userId) {
+        return repository.save(plan, userId);
+    }
+
+    public Plan getWithUser(int id, int userId){  //for tests
+        return checkNotFoundWithId(repository.getWithUser(id, userId), id);
     }
 }
