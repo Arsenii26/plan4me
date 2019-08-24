@@ -5,7 +5,8 @@
     <jmxConfigurator/>
 
     <appender name="file" class="ch.qos.logback.core.FileAppender">
-        <file>${TOPJAVA_ROOT}/log/topjava.log</file>
+<!--        <file>${PLAN4ME}/log/topjava.log</file>-->
+        <file>${PLAN4ME}/log/plan4me.log</file>
 
         <encoder>
             <charset>UTF-8</charset>
@@ -20,10 +21,15 @@
         </encoder>
     </appender>
 
-    <logger name="ca.arsenii.topjava" level="debug"/>
+    <logger name="ca.arsenii.plan4me" level="debug"/>
+
+    <!--<logger name="org.springframework.web.servlet" level="debug"/>-->
+    <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" level="debug"/>
+    <logger name="org.springframework.security" level="debug"/>
 
     <root level="info">
         <appender-ref ref="file"/>
         <appender-ref ref="console"/>
     </root>
 </configuration>
+

@@ -19,11 +19,11 @@ import static ca.arsenii.plan4me.PlansTestData.*;
 import static ca.arsenii.plan4me.UserTestData.USER_ID;
 
 @ContextConfiguration({
-        "../../../../../../main/resources/spring/spring-app.xml",
+        "spring/spring-app.xml",
         "classpath:spring/spring-db.xml"
 })
 @RunWith(SpringRunner.class)
-@Sql(scripts = "../../../../../../main/resources/db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
+@Sql(scripts = "db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class PlanServiceTest {
     static {
         // Only for postgres driver logging

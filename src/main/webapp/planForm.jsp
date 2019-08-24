@@ -25,7 +25,7 @@
 </head>
 <body>
 <section>
-    <h3><a href="index.jsp">Home</a></h3>
+    <h3><a href="WEB-INF/jsp/index.jsp">Home</a></h3>
     <hr>
     <h2>${param.action == 'create' ? 'Create plan' : 'Edit plan'}</h2>
 

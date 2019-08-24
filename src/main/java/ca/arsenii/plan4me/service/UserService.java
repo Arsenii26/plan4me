@@ -47,6 +47,7 @@ public class UserService {
         checkNotFoundWithId(repository.save(user), user.getId());
     }
 
+    //for JUnit tests
     public User getWithPlans(int id) {
         return checkNotFoundWithId(repository.getWithPlans(id), id);
     }

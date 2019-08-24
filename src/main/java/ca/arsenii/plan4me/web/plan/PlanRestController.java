@@ -8,71 +8,71 @@ import ca.arsenii.plan4me.web.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
 import static ca.arsenii.plan4me.util.ValidationUtil.assureIdConsistent;
 import static ca.arsenii.plan4me.util.ValidationUtil.checkNew;
-@Controller
-public class PlanRestController {
-    private static final Logger log = LoggerFactory.getLogger(PlanRestController.class);
+@RestController
+@RequestMapping(value = PlanRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+public class PlanRestController extends AbstractPlanController{
 
-    private final PlanService service;
+    static final String REST_URL = "/rest/profile/plans";
 
-    @Autowired
-    public PlanRestController(PlanService service) {
-        this.service = service;
+    @Override
+    @GetMapping("/{id}")
+    public Plan get(@PathVariable int id) {
+        return super.get(id);
     }
 
-    public Plan get(int id) {
-        int userId = SecurityUtil.authUserId();
-        log.info("get plan {} for user {}", id, userId);
-        return service.get(id, userId);
+    @Override
+    @DeleteMapping("/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable int id) {
+        super.delete(id);
     }
 
-    public void delete(int id) {
-        int userId = SecurityUtil.authUserId();
-        log.info("delete plan {} for user {}", id, userId);
-        service.delete(id, userId);
-    }
-
+    @Override
+    @GetMapping
     public List<PlanTo> getAll() {
-//    public List<Plan> getAll() {
-        int userId = SecurityUtil.authUserId();
-        log.info("getAll for user {}", userId);
-//        return service.getAll(userId);
-        //testing
-        return PlansUtil.getPlans(service.getAll(userId));
+        return super.getAll();
     }
 
-    public Plan create(Plan plan) {
-        int userId = SecurityUtil.authUserId();
-        checkNew(plan);
-        log.info("create {} for user {}", plan, userId);
-        return service.create(plan, userId);
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Plan> createWithLocation(@RequestBody Plan plan) {
+        Plan created = super.create(plan);
+
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
+
+        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    public void update(Plan plan, int id) {
-        int userId = SecurityUtil.authUserId();
-        assureIdConsistent(plan, id);
-        log.info("update {} for user {}", plan, userId);
-        service.update(plan, userId);
+    @Override
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void update(@RequestBody Plan plan, @PathVariable int id) {
+        super.update(plan, id);
     }
 
-    /**
-     * <ol>Filter separately
-     * <li>by date</li>
-     * <li>by time for every date</li>
-     * </ol>
-     */
-    public List<PlanTo> getBetween(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
-        int userId = SecurityUtil.authUserId();
-        log.info("getBetween dates({} - {}) time({} - {}) for user {}", startDate, endDate, startTime, endTime, userId);
-
-        List<Plan> plansDateFiltered = service.getBetweenDates(startDate, endDate, userId);
-        return PlansUtil.getFilteredWithExcess(plansDateFiltered, startTime, endTime);
+    @Override
+    @GetMapping(value = "/filter")
+    public List<PlanTo> getBetween(
+            @RequestParam(required = false) LocalDate startDate,
+            @RequestParam(required = false) LocalTime startTime,
+            @RequestParam(required = false)LocalDate endDate,
+            @RequestParam(required = false) LocalTime endTime) {
+        return super.getBetween(startDate, startTime, endDate, endTime);
     }
 }

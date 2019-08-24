@@ -11,10 +11,12 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 @Repository
+@Transactional(readOnly = true)
 public class JdbcPlanRepository implements PlanRepository {
 //    private static final BeanPropertyRowMapper<Plan> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Plan.class);
     private static final RowMapper<Plan> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Plan.class);
@@ -36,6 +38,7 @@ public class JdbcPlanRepository implements PlanRepository {
     }
 
     @Override
+    @Transactional
     public Plan save(Plan plan, int userId) {
         MapSqlParameterSource map = new MapSqlParameterSource()
                 .addValue("id", plan.getId())
@@ -59,6 +62,7 @@ public class JdbcPlanRepository implements PlanRepository {
     }
 
     @Override
+    @Transactional
     public boolean delete(int id, int userId) {
         return jdbcTemplate.update("DELETE FROM plans WHERE id=? AND user_id=?", id, userId) != 0;
     }

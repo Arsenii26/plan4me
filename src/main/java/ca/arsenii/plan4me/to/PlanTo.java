@@ -1,6 +1,7 @@
 package ca.arsenii.plan4me.to;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class PlanTo {
     private final Integer id;
@@ -25,6 +26,21 @@ public class PlanTo {
         return plan;
     }
 
+    //possible to change
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PlanTo)) return false;
+        PlanTo planTo = (PlanTo) o;
+        return Objects.equals(getId(), planTo.getId()) &&
+                Objects.equals(getDateTime(), planTo.getDateTime()) &&
+                Objects.equals(getPlan(), planTo.getPlan());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getDateTime(), getPlan());
+    }
 
     @Override
     public String toString() {

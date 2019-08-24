@@ -5,20 +5,22 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!--
-        <bean class="ca.arsenii.topjava.repository.inmemory.InMemoryUserRepositoryImpl" id="inmemoryUserRepository"/>
+        <bean class="ca.arsenii.plan4me.repository.inmemory.InMemoryUserRepositoryImpl" id="inmemoryUserRepository"/>
 
 
-        <bean class="ca.arsenii.topjava.service.UserServiceImpl">
+        <bean class="ca.arsenii.plan4me.service.UserServiceImpl">
             <constructor-arg name="repository" ref="inmemoryUserRepository"/>
         </bean>
     -->
     <import resource="spring-tools.xml"/>
+    <import resource="spring-security.xml"/>
 
     <!-- Not necessary, already included with component-scan -->
     <!--<context:annotation-config/>-->
 
     <context:component-scan base-package="ca.arsenii.**.service"/>
 
-    <context:component-scan base-package="ca.arsenii.**.web"/>
+<!--    moved to spring-mvc.xml -->
+<!--    <context:component-scan base-package="ca.arsenii.**.web"/>-->
 
 </beans>

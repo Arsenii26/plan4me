@@ -55,6 +55,7 @@ public class PlanService {
         return repository.save(plan, userId);
     }
 
+    //for JUnit tests
     public Plan getWithUser(int id, int userId){  //for tests
         return checkNotFoundWithId(repository.getWithUser(id, userId), id);
     }

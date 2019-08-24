@@ -4,10 +4,7 @@ import ca.arsenii.plan4me.UserTestData;
 import ca.arsenii.plan4me.model.User;
 import ca.arsenii.plan4me.repository.inmemory.InMemoryUserRepository;
 import ca.arsenii.plan4me.util.exception.NotFoundException;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -16,7 +13,7 @@ import java.util.Collection;
 
 import static ca.arsenii.plan4me.UserTestData.ADMIN;
 
-@ContextConfiguration({"../../../../../../../main/resources/spring/spring-app.xml", "classpath:test.xml"})
+@ContextConfiguration({"spring/spring-app.xml", "classpath:test.xml"})
 @RunWith(SpringRunner.class)
 public class InMemoryAdminRestControllerSpringTest {
 
