@@ -33,16 +33,11 @@ public class PlanUIController extends AbstractPlanController{
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void createOrUpdate(@RequestParam Integer id,
                                @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime,
-                               @RequestParam String plan
-                               ) {
-        Plan meal = new Plan(id, dateTime, plan);
-        if (meal.isNew()) {
-            super.create(meal);
+                               @RequestParam String plan) {
+        Plan planObject = new Plan(id, dateTime, plan);
+        if (planObject.isNew()) {
+            super.create(planObject);
         }
-//        Plan planObject = new Plan(id, dateTime, plan);
-//        if (planObject.isNew()) {
-//            super.create(planObject);
-//        }
     }
 
     @Override

@@ -32,6 +32,6 @@ public class ProfileRestController extends AbstractUserController {
 
     @GetMapping(value = "/text")
     public String testUTF() {
-        return "Русский текст";
+        return "Texte français";
     }
 }
