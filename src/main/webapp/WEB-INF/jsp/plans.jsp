@@ -73,10 +73,12 @@
             </thead>
             <c:forEach items="${plans}" var="plan">
                 <jsp:useBean id="plan" type="ca.arsenii.plan4me.to.PlanTo"/>
+                <tr>
                     <td>${fn:formatDateTime(plan.dateTime)}</td>
                     <td>${plan.plan}</td>
                     <td><a><span class="fa fa-pencil"></span> </a></td>
                     <td><a onclick="deleteRow(${plan.id})"><span class="fa fa-remove"></span> </a> </td>
+                </tr>
             </c:forEach>
         </table>
 
