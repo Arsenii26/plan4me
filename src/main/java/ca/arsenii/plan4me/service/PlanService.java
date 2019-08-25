@@ -48,10 +48,12 @@ public class PlanService {
     }
 
     public void update(Plan plan, int userId) {
+        Assert.notNull(plan, "plan must not be null");
         checkNotFoundWithId(repository.save(plan, userId), plan.getId());
     }
 
     public Plan create(Plan plan, int userId) {
+        Assert.notNull(plan, "plan must not be null");
         return repository.save(plan, userId);
     }
 

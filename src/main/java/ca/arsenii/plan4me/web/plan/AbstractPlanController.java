@@ -37,11 +37,8 @@ public abstract class AbstractPlanController {
     }
 
     public List<PlanTo> getAll() {
-//    public List<Plan> getAll() {
         int userId = SecurityUtil.authUserId();
         log.info("getAll for user {}", userId);
-//        return service.getAll(userId);
-        //testing
         return PlansUtil.getPlans(service.getAll(userId));
     }
 

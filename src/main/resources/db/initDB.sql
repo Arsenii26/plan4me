@@ -24,12 +24,14 @@ CREATE TABLE user_roles
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
-CREATE TABLE plans (
-                       id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-                       user_id     INTEGER   NOT NULL,
-                       date_time   TIMESTAMP NOT NULL,
-                       plan TEXT      NOT NULL,
-                       FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+CREATE TABLE plans
+(
+    id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    user_id   INTEGER   NOT NULL,
+    date_time TIMESTAMP NOT NULL,
+    plan      TEXT      NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
+
 CREATE UNIQUE INDEX plans_unique_user_datetime_idx
     ON plans (user_id, date_time);
