@@ -26,7 +26,8 @@ import static ca.arsenii.plan4me.util.ValidationUtil.checkNew;
 @RequestMapping(value = PlanRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class PlanRestController extends AbstractPlanController{
 
-    static final String REST_URL = "/rest/profile/plans";
+//    static final String REST_URL = "/rest/profile/plans";
+    public static final String REST_URL = "/rest/profile/plans";
 
     @Override
     @GetMapping("/{id}")

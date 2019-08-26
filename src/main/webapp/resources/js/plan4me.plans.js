@@ -22,10 +22,7 @@ $(function () {
                     "data": "dateTime"
                 },
                 {
-                    "data": "description"
-                },
-                {
-                    "data": "calories"
+                    "data": "plan"
                 },
                 {
                     "defaultContent": "Edit",

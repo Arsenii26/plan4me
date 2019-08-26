@@ -18,14 +18,6 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
 
 public class PlansUtil {
-    public static final List<Plan> PLANS = Arrays.asList(
-            new Plan(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак"),
-            new Plan(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед"),
-            new Plan(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин"),
-            new Plan(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак"),
-            new Plan(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед"),
-            new Plan(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин")
-    );
 
     public PlansUtil() {
     }

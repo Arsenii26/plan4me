@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -33,7 +34,7 @@ public class Plan extends AbstractBaseEntity{
 
     @Column(name = "plan", nullable = false)
     @NotBlank
-    @NotNull
+    @Size(min = 2, max = 200)
     private  String plan;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -96,7 +97,7 @@ public class Plan extends AbstractBaseEntity{
         return "Plan{" +
                 "id=" + id +
                 ", dateTime=" + dateTime +
-                ", plan='" + plan + '\'' +
+                ", plan='" + plan +
                 '}';
     }
 

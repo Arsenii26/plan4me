@@ -40,28 +40,23 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public User save(User user) {
-//        MapSqlParameterSource map = new MapSqlParameterSource()
-//                .addValue("id", user.getId())
-//                .addValue("name", user.getName())
-//                .addValue("email", user.getEmail())
-//                .addValue("password", user.getPassword())
-//                .addValue("registered", user.getRegistered())
-//                .addValue("enabled", user.isEnabled());
-
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(user);
+
         if (user.isNew()) {
             Number newKey = insertUser.executeAndReturnKey(parameterSource);
             user.setId(newKey.intValue());
+            insertRoles(user);
         } else {
             if (namedParameterJdbcTemplate.update(
                     "UPDATE users SET name=:name, email=:email, password=:password, " +
-                            "registered=:registered, enabled=:enabled, WHERE id=:id", parameterSource) == 0) {
+                            "registered=:registered, enabled=:enabled WHERE id=:id", parameterSource) == 0) {
                 return null;
             }
-
+            // Simplest implementation.
+            // More complicated : get user roles from DB and compare them with user.roles (assume that roles are changed rarely).
+            // If roles are changed, calculate difference in java and delete/insert them.
             deleteRoles(user);
             insertRoles(user);
-
         }
         return user;
     }

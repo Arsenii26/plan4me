@@ -1,13 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>--%>
-<%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
 <script type="text/javascript" src="resources/js/plan4me.common.js" defer></script>
-<script type="text/javascript" src="resources/js/plan4me.users.js" defer></script>
+<script type="text/javascript" src="resources/js/plan4me.plans.js" defer></script>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 
 
@@ -26,16 +25,16 @@
                             <input class="form-control" type="date" name="startDate" id="startDate">
                         </div>
                         <div class="col-3">
-                            <label for="endtDate"><spring:message code="plan.endDate"/></label>
-                            <input class="form-control" type="date" name="endtDate" id="endtDate">
+                            <label for="endDate"><spring:message code="plan.endDate"/></label>
+                            <input class="form-control" type="date" name="endDate" id="endDate">
                         </div>
-                        <div class="col-3">
+                        <div class="offset-2 col-2">
                             <label for="startTime"><spring:message code="plan.startTime"/></label>
-                            <input class="form-control" type="date" name="startTime" id="startTime">
+                            <input class="form-control" type="time" name="startTime" id="startTime">
                         </div>
-                        <div class="col-3">
+                        <div class="col-2">
                             <label for="endTime"><spring:message code="plan.endTime"/></label>
-                            <input class="form-control" type="date" name="endTime" id="endTime">
+                            <input class="form-control" type="time" name="endTime" id="endTime">
                         </div>
                     </div>
                 </form>
@@ -62,11 +61,13 @@
             <span class="fa fa-plus"></span>
             <spring:message code="common.add"/>
         </button>
+
+
         <table class="table table-striped" id="datatable">
             <thead>
             <tr>
-                <th><spring:message code="plan.dateTime"/> </th>
-                <th><spring:message code="plan.plan"/> </th>
+                <th><spring:message code="plan.dateTime"/></th>
+                <th><spring:message code="plan.plan"/></th>
                 <th></th>
                 <th></th>
             </tr>
@@ -74,13 +75,19 @@
             <c:forEach items="${plans}" var="plan">
                 <jsp:useBean id="plan" type="ca.arsenii.plan4me.to.PlanTo"/>
                 <tr>
-                    <td>${fn:formatDateTime(plan.dateTime)}</td>
+                    <td>
+                            <%--${plan.dateTime.toLocalDate()} ${plan.dateTime.toLocalTime()}--%>
+                            <%--<%=TimeUtil.toString(plan.getDateTime())%>--%>
+                            <%--${fn:replace(plan.dateTime, 'T', ' ')}--%>
+                            ${fn:formatDateTime(plan.dateTime)}
+                    </td>
                     <td>${plan.plan}</td>
-                    <td><a><span class="fa fa-pencil"></span> </a></td>
-                    <td><a onclick="deleteRow(${plan.id})"><span class="fa fa-remove"></span> </a> </td>
+                    <td><a><span class="fa fa-pencil"></span></a></td>
+                    <td><a onclick="deleteRow(${plan.id})"><span class="fa fa-remove"></span></a></td>
                 </tr>
             </c:forEach>
         </table>
+
 
     </div>
 
@@ -112,6 +119,8 @@
                                placeholder="<spring:message code="plan.plan"/>">
                     </div>
 
+                    <br>
+                    <button type="submit" class="">Submit</button>
                 </form>
 
             </div>

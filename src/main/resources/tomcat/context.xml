@@ -33,7 +33,7 @@
     <!--
     <Valve className="org.apache.catalina.valves.CometConnectionManagerValve" />
     -->
-    <Resource name="jdbc/plan4me"
+    <Resource name="jdbc/planme"
               auth="Container"
               type="javax.sql.DataSource"
               url="jdbc:postgresql://localhost:5432/plans_123"
