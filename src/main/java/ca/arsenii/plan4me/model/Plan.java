@@ -1,8 +1,11 @@
 package ca.arsenii.plan4me.model;
 
 
+import ca.arsenii.plan4me.View;
+import ca.arsenii.plan4me.util.DateTimeUtil;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -30,6 +33,7 @@ public class Plan extends AbstractBaseEntity{
 
     @Column(name = "date_time", nullable = false)
     @NotNull
+    @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_PATTERN)
     private LocalDateTime dateTime;
 
     @Column(name = "plan", nullable = false)
@@ -40,7 +44,7 @@ public class Plan extends AbstractBaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
+    @NotNull(groups = View.Persist.class)
     private User user;
 
     public Plan() {

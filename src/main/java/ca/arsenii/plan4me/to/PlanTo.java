@@ -3,20 +3,21 @@ package ca.arsenii.plan4me.to;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class PlanTo {
-    private final Integer id;
-    private final LocalDateTime dateTime;
-    private final String plan;
+public class PlanTo extends BaseTo{
+
+    private  LocalDateTime dateTime;
+    private  String plan;
+
 
     public PlanTo(Integer id, LocalDateTime dateTime, String plan) {
-        this.id = id;
+        super(id);
         this.dateTime = dateTime;
         this.plan = plan;
     }
 
-    public Integer getId() {
-        return id;
+    public PlanTo() {
     }
+
 
     public LocalDateTime getDateTime() {
         return dateTime;

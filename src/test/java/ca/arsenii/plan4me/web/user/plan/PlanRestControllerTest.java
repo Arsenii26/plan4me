@@ -1,4 +1,4 @@
-package ca.arsenii.plan4me.web.user.meal;
+package ca.arsenii.plan4me.web.user.plan;
 
 
 import ca.arsenii.plan4me.web.plan.PlanRestController;

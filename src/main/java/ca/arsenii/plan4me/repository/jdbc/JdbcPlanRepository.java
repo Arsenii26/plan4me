@@ -2,6 +2,7 @@ package ca.arsenii.plan4me.repository.jdbc;
 
 import ca.arsenii.plan4me.model.Plan;
 import ca.arsenii.plan4me.repository.PlanRepository;
+import ca.arsenii.plan4me.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -40,6 +41,9 @@ public class JdbcPlanRepository implements PlanRepository {
     @Override
     @Transactional
     public Plan save(Plan plan, int userId) {
+
+        ValidationUtil.validate(plan);
+
         MapSqlParameterSource map = new MapSqlParameterSource()
                 .addValue("id", plan.getId())
                 .addValue("plan", plan.getPlan())

@@ -3,6 +3,7 @@ package ca.arsenii.plan4me.repository.jdbc;
 import ca.arsenii.plan4me.model.Role;
 import ca.arsenii.plan4me.model.User;
 import ca.arsenii.plan4me.repository.UserRepository;
+import ca.arsenii.plan4me.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -39,7 +40,10 @@ public class JdbcUserRepository implements UserRepository {
     }
 
     @Override
+    @Transactional
     public User save(User user) {
+        ValidationUtil.validate(user);
+
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(user);
 
         if (user.isNew()) {
@@ -80,11 +84,6 @@ public class JdbcUserRepository implements UserRepository {
         return setRoles(DataAccessUtils.singleResult(users));
     }
 
-//    @Override
-//    public List<User> getAll() {
-//        return jdbcTemplate.query("SELECT * FROM users ORDER BY name, email", ROW_MAPPER);
-//    }
-
     @Override
     public List<User> getAll() {
         Map<Integer, Set<Role>> map = new HashMap<>();
@@ -120,4 +119,3 @@ public class JdbcUserRepository implements UserRepository {
         return u;
     }
 }
-

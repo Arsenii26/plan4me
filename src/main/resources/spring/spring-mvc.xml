@@ -7,6 +7,9 @@
 
     <bean class="ca.arsenii.plan4me.web.json.JacksonObjectMapper" id="objectMapper" factory-method="getMapper"/>
 
+    <!-- serve static resources (*.html, ...) from src/main/webapp/ -->
+    <mvc:default-servlet-handler/>
+
     <mvc:annotation-driven conversion-service="conversionService">
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
@@ -61,4 +64,17 @@
         <property name="basenames" value="file:///#{systemEnvironment['PLAN4ME']}/config/messages/plan"/>
         <property name="fallbackToSystemLocale" value="false"/>
     </bean>
+
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="defaultLocale" value="ru"/>
+    </bean>
+
+    <mvc:interceptors>
+        <bean class="ca.arsenii.plan4me.web.interceptor.ModelInterceptor"/>
+
+        <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+            <property name="paramName" value="lang"/>
+        </bean>
+    </mvc:interceptors>
 </beans>

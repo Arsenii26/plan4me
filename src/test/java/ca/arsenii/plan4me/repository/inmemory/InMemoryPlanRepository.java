@@ -24,14 +24,14 @@ import static ca.arsenii.plan4me.UserTestData.USER_ID;
 public class InMemoryPlanRepository implements PlanRepository {
     private static final Logger log = LoggerFactory.getLogger(InMemoryPlanRepository.class);
 
-    // Map  userId -> (mealId-> meal)
+    // Map  userId -> (planId-> plan)
     private Map<Integer, InMemoryBaseRepository<Plan>> usersPlansMap = new ConcurrentHashMap<>();
 
     @Override
-    public Plan save(Plan meal, int userId) {
-        Objects.requireNonNull(meal, "meal must not be null");
+    public Plan save(Plan plan, int userId) {
+        Objects.requireNonNull(plan, "plan must not be null");
         var plans = usersPlansMap.computeIfAbsent(userId, uid -> new InMemoryBaseRepository<>());
-        return plans.save(meal);
+        return plans.save(plan);
     }
 
     @PostConstruct
@@ -58,14 +58,14 @@ public class InMemoryPlanRepository implements PlanRepository {
 
     @Override
     public List<Plan> getAll(int userId) {
-        return getAllFiltered(userId, meal -> true);
+        return getAllFiltered(userId, plan -> true);
     }
 
     @Override
     public List<Plan> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
         Objects.requireNonNull(startDateTime, "startDateTime must not be null");
         Objects.requireNonNull(endDateTime, "endDateTime must not be null");
-        return getAllFiltered(userId, meal -> Util.isBetween(meal.getDateTime(), startDateTime, endDateTime));
+        return getAllFiltered(userId, plan -> Util.isBetween(plan.getDateTime(), startDateTime, endDateTime));
     }
 
     private List<Plan> getAllFiltered(int userId, Predicate<Plan> filter) {

@@ -76,4 +76,6 @@ public class PlanRestController extends AbstractPlanController{
             @RequestParam(required = false) LocalTime endTime) {
         return super.getBetween(startDate, startTime, endDate, endTime);
     }
+
+
 }

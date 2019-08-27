@@ -2,20 +2,31 @@ package ca.arsenii.plan4me.web.user;
 
 import ca.arsenii.plan4me.model.Role;
 import ca.arsenii.plan4me.model.User;
+import ca.arsenii.plan4me.to.UserTo;
+import ca.arsenii.plan4me.util.UserUtil;
+import ca.arsenii.plan4me.util.ValidationUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/ajax/admin/users")
 public class AdminUIController extends AbstractUserController {
-
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAll() {
         return super.getAll();
+    }
+
+    @Override
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public User get(@PathVariable int id) {
+        return super.get(id);
     }
 
     @Override
@@ -26,15 +37,11 @@ public class AdminUIController extends AbstractUserController {
     }
 
     @PostMapping
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void createOrUpdate(@RequestParam Integer id,
-                               @RequestParam String name,
-                               @RequestParam String email,
-                               @RequestParam String password) {
-
-        User user = new User(id, name, email, password, Role.ROLE_USER);
-        if (user.isNew()) {
-            super.create(user);
+    public void createOrUpdate(@Valid UserTo userTo) {
+        if (userTo.isNew()) {
+            super.create(userTo);
+        } else {
+            super.update(userTo, userTo.id());
         }
     }
 

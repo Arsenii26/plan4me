@@ -27,9 +27,9 @@ public class SpringMain {
             adminUserController.getAll();
             System.out.println();
 
-            PlanRestController mealController = appCtx.getBean(PlanRestController.class);
+            PlanRestController planController = appCtx.getBean(PlanRestController.class);
             List<PlanTo> filteredPlansWithExcess =
-                    mealController.getBetween(
+                    planController.getBetween(
                             LocalDate.of(2019, Month.MAY, 30), LocalTime.of(7, 0),
                             LocalDate.of(2019, Month.MAY, 31), LocalTime.of(11, 0));
             filteredPlansWithExcess.forEach(System.out::println);

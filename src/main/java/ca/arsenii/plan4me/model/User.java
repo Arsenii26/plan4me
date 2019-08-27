@@ -1,5 +1,7 @@
 package ca.arsenii.plan4me.model;
 
+import ca.arsenii.plan4me.HasEmail;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.util.CollectionUtils;
@@ -20,7 +22,7 @@ import java.util.*;
 })
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
-public class User extends AbstractNamedEntity{
+public class User extends AbstractNamedEntity implements HasEmail {
 
     public static final String DELETE = "User.delete";
     public static final String BY_EMAIL = "User.getByEmail";
@@ -35,6 +37,7 @@ public class User extends AbstractNamedEntity{
     @Column(name = "password", nullable = false)
     @NotBlank
     @Size(min = 5, max = 100)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Column(name = "enabled", nullable = false, columnDefinition = "default is true")
@@ -42,6 +45,7 @@ public class User extends AbstractNamedEntity{
 
     @Column(name = "registered", nullable = false, columnDefinition = "timestamp default for now()")
     @NotNull
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Date registered = new Date();
 
 

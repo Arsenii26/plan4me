@@ -2,9 +2,13 @@ package ca.arsenii.plan4me.web.user;
 
 import ca.arsenii.plan4me.model.User;
 import ca.arsenii.plan4me.service.UserService;
+import ca.arsenii.plan4me.to.UserTo;
+import ca.arsenii.plan4me.util.UserUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 
 import java.util.List;
 
@@ -17,7 +21,15 @@ public abstract class AbstractUserController {
     @Autowired
     protected UserService service;
 
-    public List<User> getAll(){
+    @Autowired
+    private UniqueMailValidator emailValidator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(emailValidator);
+    }
+
+    public List<User> getAll() {
         log.info("getAll");
         return service.getAll();
     }
@@ -27,7 +39,11 @@ public abstract class AbstractUserController {
         return service.get(id);
     }
 
-    public User create(User user){
+    public User create(UserTo userTo) {
+        return create(UserUtil.createNewFromTo(userTo));
+    }
+
+    public User create(User user) {
         log.info("create {}", user);
         checkNew(user);
         return service.create(user);
@@ -38,14 +54,20 @@ public abstract class AbstractUserController {
         service.delete(id);
     }
 
-    public void enable(int id, boolean enabled) {
-        log.info(enabled ? "enable {}" : "disable {}", id);
-        service.enable(id, enabled); //will use service class
-    }
-
     public void update(User user, int id) {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
         service.update(user);
+    }
+
+    public void update(UserTo userTo, int id) {
+        log.info("update {} with id={}", userTo, id);
+        assureIdConsistent(userTo, id);
+        service.update(userTo);
+    }
+
+    public void enable(int id, boolean enabled) {
+        log.info(enabled ? "enable {}" : "disable {}", id);
+        service.enable(id, enabled);
     }
 }

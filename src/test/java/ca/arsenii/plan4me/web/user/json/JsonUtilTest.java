@@ -14,8 +14,8 @@ class JsonUtilTest {
     void readWriteValue() throws Exception {
         String json = JsonUtil.writeValue(ADMIN_PLAN1);
         System.out.println(json);
-        Plan meal = JsonUtil.readValue(json, Plan.class);
-        assertMatch(meal, ADMIN_PLAN1);
+        Plan plan = JsonUtil.readValue(json, Plan.class);
+        assertMatch(plan, ADMIN_PLAN1);
     }
 
     @Test

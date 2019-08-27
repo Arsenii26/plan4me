@@ -1,10 +1,18 @@
 package ca.arsenii.plan4me.util;
 
+import ca.arsenii.plan4me.HasId;
 import ca.arsenii.plan4me.model.AbstractBaseEntity;
+import ca.arsenii.plan4me.util.exception.IllegalRequestDataException;
 import ca.arsenii.plan4me.util.exception.NotFoundException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+
+import javax.validation.*;
+import java.util.Set;
+import java.util.StringJoiner;
 
 public class ValidationUtil {
-    public ValidationUtil() {
+    private ValidationUtil() {
     }
 
     public static <T> T checkNotFoundWithId(T object, int id) {
@@ -26,20 +34,22 @@ public class ValidationUtil {
         }
     }
 
-    public static void checkNew(AbstractBaseEntity entity) {
-        if (!entity.isNew()) {
-            throw new IllegalArgumentException(entity + " must be new (id=null)");
+    public static void checkNew(HasId bean) {
+        if (!bean.isNew()) {
+            throw new IllegalRequestDataException(bean + " must be new (id=null)");
         }
     }
 
-    public static void assureIdConsistent(AbstractBaseEntity entity, int id) {
-        if (entity.isNew()) {
-            entity.setId(id);
-        } else if (entity.getId() != id) {
-            throw new IllegalArgumentException(entity + " must be with id=" + id);
+    public static void assureIdConsistent(HasId bean, int id) {
+//      conservative when you reply, but accept liberally (http://stackoverflow.com/a/32728226/548473)
+        if (bean.isNew()) {
+            bean.setId(id);
+        } else if (bean.id() != id) {
+            throw new IllegalRequestDataException(bean + " must be with id=" + id);
         }
     }
 
+    //  http://stackoverflow.com/a/28565320/548473
     public static Throwable getRootCause(Throwable t) {
         Throwable result = t;
         Throwable cause;
@@ -48,5 +58,26 @@ public class ValidationUtil {
             result = cause;
         }
         return result;
+    }
+
+    public static String getMessage(Throwable e) {
+        return e.getLocalizedMessage() != null ? e.getLocalizedMessage() : e.getClass().getName();
+    }
+
+    private static final Validator validator;
+
+    static {
+        //  From Javadoc: implementations are thread-safe and instances are typically cached and reused.
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        //  From Javadoc: implementations of this interface must be thread-safe
+        validator = factory.getValidator();
+    }
+
+    public static <T> void validate(T bean) {
+        // https://alexkosarev.name/2018/07/30/bean-validation-api/
+        Set<ConstraintViolation<T>> violations = validator.validate(bean);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
     }
 }
