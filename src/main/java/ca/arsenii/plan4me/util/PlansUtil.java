@@ -34,7 +34,6 @@ public class PlansUtil {
     }
 
     public static List<PlanTo> getPlans(Collection<Plan> plans) {
-//        return PLANS;
         return getFilteredWithExcess(plans, plan -> true);
     }
     public static List<PlanTo> getFilteredWithExcess(Collection<Plan> plans,  @Nullable LocalTime startTime, @Nullable LocalTime endTime) {

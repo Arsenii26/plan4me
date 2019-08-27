@@ -33,6 +33,14 @@ class RootControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void unAuth() throws Exception {
+        mockMvc.perform(get("/users"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("http://localhost/login"));
+    }
+
+    @Test
     void getPlans() throws Exception {
         mockMvc.perform(get("/plans"))
                 .andDo(print())

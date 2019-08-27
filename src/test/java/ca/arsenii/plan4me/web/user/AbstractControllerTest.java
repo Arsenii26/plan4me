@@ -1,6 +1,8 @@
 package ca.arsenii.plan4me.web.user;
 
 
+import ca.arsenii.plan4me.util.exception.ErrorType;
+import ca.arsenii.plan4me.web.MessageUtil;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
@@ -19,6 +22,9 @@ import ca.arsenii.plan4me.service.UserService;
 import javax.annotation.PostConstruct;
 
 import javax.annotation.PostConstruct;
+
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringJUnitWebConfig(locations = {
         "classpath:spring/spring-app.xml",
@@ -52,13 +58,18 @@ public abstract class AbstractControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    @Autowired
+    protected MessageUtil messageUtil;
+
     @PostConstruct
-    private void postConstruct(){
+    private void postConstruct() {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
                 .addFilter(CHARACTER_ENCODING_FILTER)
+                .apply(springSecurity())
                 .build();
     }
+
 
     @BeforeEach
     void setUp(){
@@ -67,4 +78,16 @@ public abstract class AbstractControllerTest {
             jpaUtil.clear2ndLevelHibernateCache();
         }
     }
+    private String getMessage(String code) {
+        return messageUtil.getMessage(code, MessageUtil.FR_LOCALE);
+    }
+
+    public ResultMatcher errorType(ErrorType type) {
+        return jsonPath("$.type").value(type.name());
+    }
+
+    public ResultMatcher detailMessage(String code) {
+        return jsonPath("$.details").value(getMessage(code));
+    }
 }
+

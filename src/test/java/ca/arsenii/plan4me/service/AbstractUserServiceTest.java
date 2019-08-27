@@ -1,5 +1,6 @@
 package ca.arsenii.plan4me.service;
 
+import ca.arsenii.plan4me.repository.JpaUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,9 @@ import org.springframework.dao.DataAccessException;
 import ca.arsenii.plan4me.model.Role;
 import ca.arsenii.plan4me.model.User;
 import ca.arsenii.plan4me.util.exception.NotFoundException;
+import org.springframework.util.Assert;
 
+import javax.validation.ConstraintViolationException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -24,14 +27,25 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Autowired
     private CacheManager cacheManager;
 
+    private JpaUtil jpaUtil;
+
+    @Autowired(required = false)
+    private void setJpaUtil(JpaUtil jpaUtil) {
+        Assert.isTrue(!isJpaBased() || jpaUtil != null, "JpaUtil is missed in JPA profile");
+        this.jpaUtil = jpaUtil;
+    }
+
     @BeforeEach
     void setUp() throws Exception {
         cacheManager.getCache("users").clear();
+        if (isJpaBased()) {
+            jpaUtil.clear2ndLevelHibernateCache();
+        }
     }
 
     @Test
     void create() throws Exception {
-        User newUser = new User(null, "New", "new@gmail.com", "newPass", false, new Date(), Collections.singleton(Role.ROLE_USER));
+        User newUser = new User(null, "New", "new@gmail.com", "newPass",  false, new Date(), Collections.singleton(Role.ROLE_USER));
         User created = service.create(new User(newUser));
         newUser.setId(created.getId());
         assertMatch(created, newUser);
@@ -95,5 +109,14 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
         assertFalse(service.get(USER_ID).isEnabled());
         service.enable(USER_ID, true);
         assertTrue(service.get(USER_ID).isEnabled());
+    }
+
+    @Test
+    void createWithException() throws Exception {
+        validateRootCause(() -> service.create(new User(null, "  ", "mail@yandex.ru", "password", Role.ROLE_USER)), ConstraintViolationException.class);
+        validateRootCause(() -> service.create(new User(null, "User", "  ", "password",  Role.ROLE_USER)), ConstraintViolationException.class);
+        validateRootCause(() -> service.create(new User(null, "User", "mail@yandex.ru", "  ",  Role.ROLE_USER)), ConstraintViolationException.class);
+        validateRootCause(() -> service.create(new User(null, "User", "mail@yandex.ru", "password",  true, new Date(), Collections.emptySet())), ConstraintViolationException.class);
+        validateRootCause(() -> service.create(new User(null, "User", "mail@yandex.ru", "password", true, new Date(), Collections.emptySet())), ConstraintViolationException.class);
     }
 }

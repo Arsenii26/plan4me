@@ -2,6 +2,7 @@ package ca.arsenii.plan4me;
 
 import ca.arsenii.plan4me.model.Role;
 import ca.arsenii.plan4me.model.User;
+import ca.arsenii.plan4me.web.json.JsonUtil;
 import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.util.Arrays;
@@ -36,5 +37,9 @@ public class UserTestData {
 
     public static ResultMatcher contentJson(User expected){
         return result -> assertMatch(readListFromJsonMvcResult(result, User.class), expected);
+    }
+
+    public static String jsonWithPassword(User user, String passw){
+        return JsonUtil.writeAdditionProps(user, "password", passw);
     }
 }

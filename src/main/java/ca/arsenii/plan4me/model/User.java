@@ -80,6 +80,7 @@ public class User extends AbstractNamedEntity implements HasEmail {
         setRoles(roles);
     }
 
+    @Override
     public String getEmail() {
         return email;
     }

@@ -27,15 +27,15 @@ public class PlanTo extends BaseTo{
         return plan;
     }
 
-    //possible to change
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PlanTo)) return false;
-        PlanTo planTo = (PlanTo) o;
-        return Objects.equals(getId(), planTo.getId()) &&
-                Objects.equals(getDateTime(), planTo.getDateTime()) &&
-                Objects.equals(getPlan(), planTo.getPlan());
+        if (o == null || getClass() != o.getClass()) return false;
+        PlanTo that = (PlanTo) o;
+        return
+                Objects.equals(id, that.id) &&
+                Objects.equals(dateTime, that.dateTime) &&
+                Objects.equals(plan, that.plan);
     }
 
     @Override

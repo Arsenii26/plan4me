@@ -77,11 +77,9 @@ public class JdbcPlanRepository implements PlanRepository {
                 "SELECT * FROM plans WHERE id = ? AND user_id = ?", ROW_MAPPER, id, userId);
         return DataAccessUtils.singleResult(plans);
     }
-//    private SessionFactory sessionFactory;
+
     @Override
     public List<Plan> getAll(int userId) {
-//        Session session = sessionFactory.getCurrentSession();
-//        return session.createQuery("from plans").setFirstResult(10 * (page - 1)).setMaxResults(10).list();
         return jdbcTemplate.query(
                 "SELECT * FROM plans WHERE user_id=? ORDER BY date_time DESC", ROW_MAPPER, userId);
     }

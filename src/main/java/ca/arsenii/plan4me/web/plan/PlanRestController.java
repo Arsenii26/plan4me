@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -50,7 +51,7 @@ public class PlanRestController extends AbstractPlanController{
 
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Plan> createWithLocation(@RequestBody Plan plan) {
+    public ResponseEntity<Plan> createWithLocation(@Valid @RequestBody Plan plan) {
         Plan created = super.create(plan);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -63,7 +64,7 @@ public class PlanRestController extends AbstractPlanController{
     @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Plan plan, @PathVariable int id) {
+    public void update(@Valid @RequestBody Plan plan, @PathVariable int id) {
         super.update(plan, id);
     }
 
