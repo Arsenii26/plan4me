@@ -27,7 +27,6 @@ import java.time.LocalTime;
 @Table(name = "plans", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_time"}, name = "plans_unique_user_datetime_idx")})
 public class Plan extends AbstractBaseEntity{
 
-
     public static final String ALL_SORTED = "Plan.getAll";
     public static final String DELETE = "Plan.delete";
     public static final String GET_BETWEEN = "Plan.getBetween";
