@@ -9,8 +9,6 @@
 <body>
 <jsp:include page="fragments/bodyHeaderForLogin.jsp"/>
 
-<%--<div class="jumbotron py-0">--%>
-<%--    <div class="container">--%>
 
         <sec:authorize access="isAnonymous()">
             <div class="col-6 mx-auto text-center m-3">
@@ -24,11 +22,8 @@
             </div>
         </sec:authorize>
 
-<%--    </div>--%>
-<%--</div>--%>
 
 
-    <div class="row centered justify-content-center align-items-center">
         <div class="col-6 mx-auto jumbotron text-center">
     <h3><spring:message code="app.welcome"/></h3><br>
             <sec:authorize access="isAnonymous()">
@@ -47,10 +42,10 @@
 
             <a class="btn btn-lg btn-success" href="profile/register"><spring:message code="app.register"/> &raquo;</a>
 
-        </div>
     </div>
 
-    <div class="row centered justify-content-center align-items-center">
+<%--    <div class="row centered justify-content-center align-items-center">--%>
+    <div class="col-4 mx-auto text-center">
         <c:if test="${param.error}">
             <div class="error">${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}</div>
         </c:if>
