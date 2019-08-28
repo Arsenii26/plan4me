@@ -12,7 +12,8 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ml-auto">\
+
                 <li class="nav-item">
                     <sec:authorize access="isAuthenticated()">
                         <form:form class="form-inline my-2" action="logout" method="post">
@@ -35,15 +36,18 @@
                         </form:form>
                     </sec:authorize>
                 </li>
+
                 <li class="nav-item dropdown">
                     <a class="dropdown-toggle nav-link my-1 ml-2" data-toggle="dropdown">${pageContext.response.locale}</a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_uri']}?lang=en">English</a>
-                        <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_uri']}?lang=fr">Fr</a>
+                        <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_uri']}?lang=fr">Française</a>
                     </div>
                 </li>
+
             </ul>
         </div>
+
     </div>
 </nav>
 <script type="text/javascript">

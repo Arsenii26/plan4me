@@ -28,11 +28,11 @@ public class PlanTestData {
     public static final List<Plan> PLANS = List.of(PLAN6, PLAN5, PLAN4, PLAN3, PLAN2, PLAN1);
 
     public static Plan getCreated() {
-        return new Plan(null, of(2019, Month.JUNE, 1, 18, 0), "Созданный ужин");
+        return new Plan(null, of(2019, Month.JUNE, 1, 18, 0), "New plan");
     }
 
     public static Plan getUpdated() {
-        return new Plan(PLAN1_ID, PLAN1.getDateTime(), "New gym");
+        return new Plan(PLAN1_ID, PLAN1.getDateTime(), "Updated plan");
     }
 
     public static void assertMatch(Plan actual, Plan expected) {

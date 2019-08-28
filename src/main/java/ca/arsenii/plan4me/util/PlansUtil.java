@@ -29,7 +29,7 @@ public class PlansUtil {
                 .collect(toList());
     }
 
-        private static PlanTo createWithExcess(Plan plan) {
+        public static PlanTo createWithExcess(Plan plan) {
         return new PlanTo(plan.getId(), plan.getDateTime(), plan.getPlan());
     }
 

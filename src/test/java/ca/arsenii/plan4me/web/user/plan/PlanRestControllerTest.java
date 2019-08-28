@@ -110,24 +110,24 @@ class PlanRestControllerTest extends AbstractControllerTest {
                 .andExpect(contentJson(getPlans(PLANS)));
     }
 
-//    @Test
-//    void filter() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + "filter")
-//                .param("startDate", "2015-05-30").param("startTime", "07:00")
-//                .param("endDate", "2015-05-31").param("endTime", "11:00")
-//                .with(userHttpBasic(USER)))
-//                .andExpect(status().isOk())
-//                .andDo(print())
-//                .andExpect(contentJson(createWithExcess(PLAN4, true), createWithExcess(PLAN1, false)));
-//    }
-//
-//    @Test
-//    void filterAll() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + "filter?startDate=&endTime=")
-//                .with(userHttpBasic(USER)))
-//                .andExpect(status().isOk())
-//                .andExpect(contentJson(getWithExcess(PLANS, USER.getCaloriesPerDay())));
-//    }
+    @Test
+    void filter() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + "filter")
+                .param("startDate", "2019-05-30").param("startTime", "07:00")
+                .param("endDate", "2019-05-31").param("endTime", "11:00")
+                .with(userHttpBasic(USER)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(contentJson(createWithExcess(PLAN4), createWithExcess(PLAN1)));
+    }
+
+    @Test
+    void filterAll() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + "filter?startDate=&endTime=")
+                .with(userHttpBasic(USER)))
+                .andExpect(status().isOk())
+                .andExpect(contentJson(getPlans(PLANS)));
+    }
 
     @Test
     void createInvalid() throws Exception {
@@ -184,21 +184,3 @@ class PlanRestControllerTest extends AbstractControllerTest {
                 .andExpect(detailMessage(EXCEPTION_DUPLICATE_DATETIME));
     }
 }
-
-//    @Test
-//    void filter() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + "filter")
-//                .param("startDate", "2015-05-30").param("startTime", "07:00")
-//                .param("endDate", "2015-05-31").param("endTime", "11:00"))
-//                .andExpect(status().isOk())
-//                .andDo(print())
-//                .andExpect(contentJson(createWithExcess(PLAN4), createWithExcess(PLAN1)));
-//    }
-//
-//    @Test
-//    void filterAll() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + "filter?startDate=&endTime="))
-//                .andExpect(status().isOk())
-//                .andExpect(contentJson(getPlans(PLANS)));
-//    }
-//}
