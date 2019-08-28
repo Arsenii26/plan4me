@@ -14,6 +14,8 @@ import ca.arsenii.plan4me.web.json.JsonUtil;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 import static ca.arsenii.plan4me.PlanTestData.PLANS;
 import static ca.arsenii.plan4me.TestUtil.*;
 import static ca.arsenii.plan4me.UserTestData.*;
@@ -182,5 +184,18 @@ class PlanRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isConflict())
                 .andExpect(errorType(VALIDATION_ERROR))
                 .andExpect(detailMessage(EXCEPTION_DUPLICATE_DATETIME));
+    }
+
+    @Test
+    void updateHtmlUnsafe() throws Exception {
+        Plan invalid = new Plan(PLAN1_ID, LocalDateTime.now(), "<script>alert(123)</script>");
+        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL + PLAN1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(invalid))
+                .with(userHttpBasic(USER)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(errorType(VALIDATION_ERROR))
+                .andDo(print());
     }
 }

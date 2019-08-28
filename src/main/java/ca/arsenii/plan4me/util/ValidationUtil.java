@@ -2,16 +2,20 @@ package ca.arsenii.plan4me.util;
 
 import ca.arsenii.plan4me.HasId;
 import ca.arsenii.plan4me.model.AbstractBaseEntity;
+import ca.arsenii.plan4me.util.exception.ErrorType;
 import ca.arsenii.plan4me.util.exception.IllegalRequestDataException;
 import ca.arsenii.plan4me.util.exception.NotFoundException;
+import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.*;
 import java.util.Set;
 import java.util.StringJoiner;
 
 public class ValidationUtil {
+
     private ValidationUtil() {
     }
 
@@ -28,9 +32,9 @@ public class ValidationUtil {
         return object;
     }
 
-    public static void checkNotFound(boolean found, String msg) {
+    public static void checkNotFound(boolean found, String arg) {
         if (!found) {
-            throw new NotFoundException("Not found entity with " + msg);
+            throw new NotFoundException(arg);
         }
     }
 
@@ -79,5 +83,15 @@ public class ValidationUtil {
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
+    }
+
+    public static Throwable logAndGetRootCause(Logger log, HttpServletRequest req, Exception e, boolean logException, ErrorType errorType) {
+        Throwable rootCause = ValidationUtil.getRootCause(e);
+        if (logException) {
+            log.error(errorType + " at request " + req.getRequestURL(), rootCause);
+        } else {
+            log.warn("{} at request  {}: {}", errorType, req.getRequestURL(), rootCause.toString());
+        }
+        return rootCause;
     }
 }

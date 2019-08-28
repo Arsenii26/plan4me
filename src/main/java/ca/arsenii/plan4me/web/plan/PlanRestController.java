@@ -1,5 +1,6 @@
 package ca.arsenii.plan4me.web.plan;
 
+import ca.arsenii.plan4me.View;
 import ca.arsenii.plan4me.model.Plan;
 import ca.arsenii.plan4me.service.PlanService;
 import ca.arsenii.plan4me.to.PlanTo;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -51,7 +53,7 @@ public class PlanRestController extends AbstractPlanController{
 
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Plan> createWithLocation(@Valid @RequestBody Plan plan) {
+    public ResponseEntity<Plan> createWithLocation(@Validated(View.Web.class) @RequestBody Plan plan) {
         Plan created = super.create(plan);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -64,7 +66,7 @@ public class PlanRestController extends AbstractPlanController{
     @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody Plan plan, @PathVariable int id) {
+    public void update(@Validated(View.Web.class) @RequestBody Plan plan, @PathVariable int id) {
         super.update(plan, id);
     }
 

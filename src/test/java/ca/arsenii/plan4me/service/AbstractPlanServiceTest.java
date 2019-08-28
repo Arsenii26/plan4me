@@ -1,6 +1,7 @@
 package ca.arsenii.plan4me.service;
 
 import ca.arsenii.plan4me.model.Plan;
+import ca.arsenii.plan4me.util.exception.ErrorType;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +13,10 @@ import java.time.LocalDate;
 import java.time.Month;
 
 import static java.time.LocalDateTime.of;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ca.arsenii.plan4me.PlanTestData.*;
 import static ca.arsenii.plan4me.UserTestData.ADMIN_ID;
 import static ca.arsenii.plan4me.UserTestData.USER_ID;
+import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class AbstractPlanServiceTest extends AbstractServiceTest {
 
@@ -78,7 +78,10 @@ public abstract class AbstractPlanServiceTest extends AbstractServiceTest {
     @Test
     void updateNotFound() throws Exception {
         NotFoundException e = assertThrows(NotFoundException.class, () -> service.update(PLAN1, ADMIN_ID));
-        assertEquals(e.getMessage(), "Not found entity with id=" + PLAN1_ID);
+        String msg = e.getMessage();
+        assertTrue(msg.contains(ErrorType.DATA_NOT_FOUND.name()));
+        assertTrue(msg.contains(NotFoundException.NOT_FOUND_EXCEPTION));
+        assertTrue(msg.contains(String.valueOf(PLAN1_ID)));
     }
 
     @Test

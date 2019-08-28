@@ -1,9 +1,11 @@
 package ca.arsenii.plan4me.model;
 
 import ca.arsenii.plan4me.HasEmail;
+import ca.arsenii.plan4me.View;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.util.CollectionUtils;
 import org.hibernate.annotations.Cache;
 
@@ -32,6 +34,7 @@ public class User extends AbstractNamedEntity implements HasEmail {
     @Email
     @NotBlank
     @Size(max = 100)
+    @SafeHtml(groups = {View.Web.class})
     private String email;
 
     @Column(name = "password", nullable = false)

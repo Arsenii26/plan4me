@@ -5,6 +5,7 @@ import ca.arsenii.plan4me.View;
 import ca.arsenii.plan4me.util.DateTimeUtil;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -39,6 +40,7 @@ public class Plan extends AbstractBaseEntity{
     @Column(name = "plan", nullable = false)
     @NotBlank
     @Size(min = 2, max = 200)
+    @SafeHtml(groups = {View.Web.class})
     private  String plan;
 
     @ManyToOne(fetch = FetchType.LAZY)

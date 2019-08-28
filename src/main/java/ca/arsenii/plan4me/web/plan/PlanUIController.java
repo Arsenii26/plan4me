@@ -1,5 +1,6 @@
 package ca.arsenii.plan4me.web.plan;
 
+import ca.arsenii.plan4me.View;
 import ca.arsenii.plan4me.model.Plan;
 import ca.arsenii.plan4me.to.PlanTo;
 import ca.arsenii.plan4me.util.ValidationUtil;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -41,7 +43,7 @@ public class PlanUIController extends AbstractPlanController{
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void createOrUpdate(@Valid Plan plan) {
+    public void createOrUpdate(@Validated(View.Web.class) Plan plan) {
         if (plan.isNew()) {
             super.create(plan);
         } else {

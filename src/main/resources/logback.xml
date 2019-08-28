@@ -5,7 +5,6 @@
     <jmxConfigurator/>
 
     <appender name="file" class="ch.qos.logback.core.FileAppender">
-<!--        <file>${PLAN4ME}/log/topjava.log</file>-->
         <file>${PLAN4ME}/log/plan4me.log</file>
 
         <encoder>
