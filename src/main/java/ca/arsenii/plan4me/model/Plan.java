@@ -18,8 +18,8 @@ import java.time.LocalTime;
 
 @SuppressWarnings("JpaQlInspection")  //hides some issues in sql code
 @NamedQueries({
-        @javax.persistence.NamedQuery(name = Plan.ALL_SORTED, query = "SELECT m FROM Plan m WHERE m.user.id=:userId ORDER BY m.dateTime DESC"),
-        @javax.persistence.NamedQuery(name = Plan.DELETE, query = "DELETE FROM Plan m WHERE m.id=:id AND m.user.id=:userId"),
+        @javax.persistence.NamedQuery(name = Plan.ALL_SORTED, query = "SELECT p FROM Plan p WHERE p.user.id=:userId ORDER BY p.dateTime DESC"),
+        @javax.persistence.NamedQuery(name = Plan.DELETE, query = "DELETE FROM Plan p WHERE p.id=:id AND p.user.id=:userId"),
         @NamedQuery(name = Plan.GET_BETWEEN, query = "SELECT p FROM Plan p " +
                 "WHERE p.user.id=:userId AND p.dateTime BETWEEN :startDate AND :endDate ORDER BY p.dateTime DESC"),
 })
