@@ -5,7 +5,7 @@
 
     <activeProfiles>
 
-<!--        <activeProfile>datajpa</activeProfile>-->
+        <activeProfile>datajpa</activeProfile>
         <activeProfile>heroku</activeProfile>
     </activeProfiles>
 </settings>
