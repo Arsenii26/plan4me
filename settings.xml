@@ -5,7 +5,7 @@
 
     <activeProfiles>
 
-        <activeProfile>datajpa</activeProfile>
+        <activeProfile>postgres</activeProfile>
         <activeProfile>heroku</activeProfile>
     </activeProfiles>
 </settings>
