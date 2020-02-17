@@ -1,5 +1,5 @@
 package ca.arsenii.plan4me;
-
+//change profiles for development stuff
 public class Profiles {
     public static final String
             JDBC = "jdbc",
