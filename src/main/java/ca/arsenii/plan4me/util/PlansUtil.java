@@ -22,6 +22,7 @@ public class PlansUtil {
     public PlansUtil() {
     }
 
+    //excess today date or not
     private static List<PlanTo> getFilteredWithExcess(Collection<Plan> plans, Predicate<Plan> filter) {
         return plans.stream()
                 .filter(filter)

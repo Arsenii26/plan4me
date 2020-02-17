@@ -33,6 +33,7 @@ public class PlanService {
         checkNotFoundWithId(repository.delete(id, userId), id);
     }
 
+    //@Nullable makes it clear that the method accepts null values
     public List<Plan> getBetweenDates(@Nullable LocalDate startDate, @Nullable LocalDate endDate, int userId) {
         return getBetweenDateTimes(adjustStartDateTime(startDate), adjustEndDateTime(endDate), userId);
     }

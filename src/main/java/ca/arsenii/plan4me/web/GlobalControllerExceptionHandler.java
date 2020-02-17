@@ -14,6 +14,8 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 
+//Classes annotated with @ControllerAdvice can be declared explicitly as Spring beans or auto-detected via classpath scanning.
+// All such beans are sorted based on Ordered semantics or @Order / @Priority declarations
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(GlobalControllerExceptionHandler.class);

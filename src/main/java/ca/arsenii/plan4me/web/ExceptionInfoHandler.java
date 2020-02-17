@@ -26,7 +26,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static ca.arsenii.plan4me.util.exception.ErrorType.*;
-
+//@RestControllerAdvice annotated with @ControllerAdvice and @ResponseBody
 @RestControllerAdvice(annotations = RestController.class)
 @Order(Ordered.HIGHEST_PRECEDENCE + 5)
 public class ExceptionInfoHandler {

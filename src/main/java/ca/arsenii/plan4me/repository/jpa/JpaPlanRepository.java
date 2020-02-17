@@ -15,6 +15,13 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class JpaPlanRepository implements PlanRepository{
 
+    //1)Entities are managed by javax.persistence.EntityManager instance using persistence context.
+    //2)Each EntityManager instance is associated with a persistence context.
+    //3)Within the persistence context, the entity instances and their lifecycle are managed.
+    //4)Persistence context defines a scope under which particular entity instances are created, persisted, and removed.
+    //5)A persistence context is like a cache which contains a set of persistent entities ,
+    // So once the transaction is finished, all persistent objects are detached from the EntityManager's persistence context
+    // and are no longer managed.
         @PersistenceContext
         private EntityManager em;
 

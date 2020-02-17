@@ -87,6 +87,7 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     public List<User> getAll() {
         Map<Integer, Set<Role>> map = new HashMap<>();
+        // computeIfAbsent   if key exists, nothing happened, if not then it will insert value (key-value) to the map
         jdbcTemplate.query("SELECT * FROM user_roles", rs -> {
             map.computeIfAbsent(rs.getInt("user_id"), userId -> EnumSet.noneOf(Role.class))
                     .add(Role.valueOf(rs.getString("role")));
@@ -98,6 +99,8 @@ public class JdbcUserRepository implements UserRepository {
 
     private void insertRoles(User u) {
         Set<Role> roles = u.getRoles();
+        //batchUpdate like prepared statement.
+        // By grouping updates into batches you limit the number of round trips to the database
         if (!CollectionUtils.isEmpty(roles)) {
             jdbcTemplate.batchUpdate("INSERT INTO user_roles (user_id, role) VALUES (?, ?)", roles, roles.size(),
                     (ps, role) -> {

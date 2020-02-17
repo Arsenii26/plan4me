@@ -30,12 +30,15 @@ public abstract class AbstractUserController {
 
     private boolean modificationRestriction;
 
+    //The @SuppressWarnings annotation disables certain compiler warnings. In this case, the warning
+    // about deprecated code ("deprecation") and unused local variables or unused private methods ("unused").
     @Autowired
     @SuppressWarnings("deprecation")
     public void setEnvironment(Environment environment) {
         modificationRestriction = environment.acceptsProfiles(Profiles.HEROKU);
     }
 
+    // initbinder was used as a preprocessor to trim the string values in the request before reaching the controller
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         binder.addValidators(emailValidator);

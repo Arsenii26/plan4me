@@ -28,6 +28,7 @@ public class JdbcPlanRepository implements PlanRepository {
 
     private final SimpleJdbcInsert insertPlan;
 
+    //constructor injection
     @Autowired
     public JdbcPlanRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.insertPlan = new SimpleJdbcInsert(jdbcTemplate)
@@ -44,6 +45,7 @@ public class JdbcPlanRepository implements PlanRepository {
 
         ValidationUtil.validate(plan);
 
+        //Spring LinkedHashMap
         MapSqlParameterSource map = new MapSqlParameterSource()
                 .addValue("id", plan.getId())
                 .addValue("plan", plan.getPlan())
@@ -75,7 +77,7 @@ public class JdbcPlanRepository implements PlanRepository {
     public Plan get(int id, int userId) {
         List<Plan> plans = jdbcTemplate.query(
                 "SELECT * FROM plans WHERE id = ? AND user_id = ?", ROW_MAPPER, id, userId);
-        return DataAccessUtils.singleResult(plans);
+        return DataAccessUtils.singleResult(plans); //get one plan
     }
 
     @Override
