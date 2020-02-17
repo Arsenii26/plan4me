@@ -1,5 +1,5 @@
 const userAjaxUrl = "ajax/admin/users/";
-
+//enable / disable user
 function enable(chkbox, id) {
     const enabled = chkbox.is(":checked");
 //  https://stackoverflow.com/a/22213543/548473
